@@ -1,37 +1,38 @@
 library(shiny)
-install.packages("styler")
+library(dplyr)
+#install.packages("shinylive")
+shinylive::export(appdir = ".",destdir="docs")
+
 ui <- fluidPage(
-  titlePanel("My first Shiny app"),
-  h2("My app from scratch"),
+  titlePanel("My First Shiny App"),
   sidebarLayout(
     sidebarPanel(
-      sliderInput(
-        inputId = "newbins",
-        label = "Number of bins:",
-        min = 1,
-        max = 50,
-        value = 30
+      h1("Star Wars Characters"),
+      h2("My app from scratch"),
+      sliderInput("taille",
+                  label = "Height of characters",
+                  min = 0,
+                  max = 250,
+                  value = 30
       )
     ),
     mainPanel(
-      plotOutput("distPlot")
+      plotOutput("StarWarsPlot")
     )
   )
 )
 
-
 server <- function(input, output) {
-  output$distPlot <- renderPlot({
-    x <- faithful[, 2]
-    newbins <- seq(min(x), max(x), length.out = input$newbins + 1)
-
-    hist(x,
-      breaks = newbins, col = "darkgray", border = "white",
-      xlab = "Waiting time to next eruption (in mins)",
-      main = "Histogram of waiting times"
-    )
+  output$StarWarsPlot <- renderPlot({
+    starwars |>
+      filter(height > input$taille) |>
+      ggplot(aes(x = height)) + 
+      geom_histogram(
+        bindwidth = 10, 
+        fill = "darkgray",
+        color = "white"
+      )
   })
 }
-
 
 shinyApp(ui = ui, server = server)
