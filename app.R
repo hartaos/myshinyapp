@@ -4,10 +4,17 @@ library(ggplot2)
 library(DT)
 library(glue)
 library(shinylive)
+library(bslib)
+library(thematic)
 # install.packages("shinylive")
-shinylive::export(appdir = ".",destdir="docs")
+#shinylive::export(appdir = ".",destdir="docs")
+
+thematic_shiny(font="auto")
 
 ui <- fluidPage(
+  theme = bs_theme(
+    version = 5,
+    bootswatch = "solar" ),
   titlePanel("My First Shiny App"),
   sidebarLayout(
     sidebarPanel(
@@ -47,8 +54,8 @@ server <- function(input, output) {
     ggplot(aes(x = height)) +
       geom_histogram(
         binwidth  = 10,
-        fill = "darkgray",
-        color = "white"
+        fill = "#8EC58E",
+        color ="black"
       )+
       labs(
         title = glue("Vous avez selectionné le genre :{input$gender} ")
