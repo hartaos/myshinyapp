@@ -3,6 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(DT)
 library(glue)
+library(shinylive)
 # install.packages("shinylive")
 shinylive::export(appdir = ".",destdir="docs")
 
