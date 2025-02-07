@@ -7,7 +7,7 @@ library(shinylive)
 library(bslib)
 library(thematic)
 # install.packages("shinylive")
-#shinylive::export(appdir = ".",destdir="docs")
+shinylive::export(appdir = ".",destdir="docs")
 
 thematic_shiny(font="auto")
 
