@@ -7,7 +7,7 @@ library(shinylive)
 library(bslib)
 library(thematic)
 # install.packages("shinylive")
-shinylive::export(appdir = ".",destdir="docs")
+#shinylive::export(appdir = ".",destdir="docs")
 
 thematic_shiny(font="auto")
 
@@ -29,7 +29,11 @@ ui <- fluidPage(
           inputId = "gender",
           label = "choisir le genre des personnages",
           choices = c("masculine", "feminine")
-        )
+        ),
+       actionButton(
+         inputId = "boutton",
+         label = "cliquez-moi"
+       )
       ),
       mainPanel(
         textOutput(outputId ="starwarstitle" ),
@@ -74,6 +78,17 @@ server <- function(input, output) {
       filter(height > input$taille) |>
       filter(gender == input$gender)
     })
+
+  observeEvent(input$boutton,{
+    message("vous avez cliqué sur le bouton")
+  })
+               
+  observeEvent(input$taille,{
+    showNotification(glue("la valeur du slider a changé, elle est de {input$taille}"),
+                     type = "message")
+  })          
+               
 }
+
 
 shinyApp(ui = ui, server = server)
